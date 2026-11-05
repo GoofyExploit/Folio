@@ -25,7 +25,7 @@ export default async function handler(
   if (!session?.user.id) return res.status(401).json({ error: "Unauthorized" });
 
   const folder = `folio/${session.user.id}`;
-  const cloudName = env.NEXT_PUBLIC_CLOUDINARY_CLOUD_NAME;
+  const cloudName = env.CLOUDINARY_CLOUD_NAME;
   const apiKey = env.CLOUDINARY_API_KEY;
   const apiSecret = env.CLOUDINARY_API_SECRET;
 
