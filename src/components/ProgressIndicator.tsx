@@ -27,22 +27,26 @@ function ProgressIndicator({
           if (!isReady || !upload.fileLink) return;
           window.open(upload.fileLink, "_blank", "noopener,noreferrer");
         }}
-        className={`flex items-center justify-between bg-white py-2.5 pl-4 pr-2 ${
-          isReady ? "cursor-pointer hover:bg-darkC" : "cursor-default"
+        className={`flex items-center justify-between gap-3 bg-white py-2.5 pl-4 pr-3 ${
+          isReady ? "cursor-pointer hover:bg-[#FFF7ED]" : "cursor-default"
         }`}
       >
-        <div className="flex items-center space-x-3">
-          {fileExtension && fileIcons[fileExtension] ? (
-            <div className="h-6 w-6">{fileIcons[fileExtension]}</div>
-          ) : (
-            <div className="h-6 w-6">{fileIcons["any"]}</div>
-          )}
-          <span className="w-60 truncate">{upload.name}</span>
+        <div className="flex min-w-0 flex-1 items-center space-x-3">
+          <div className="h-5 w-5 shrink-0 sm:h-6 sm:w-6">
+            {fileExtension && fileIcons[fileExtension]
+              ? fileIcons[fileExtension]
+              : fileIcons["any"]}
+          </div>
+          <span className="truncate text-xs font-medium text-[#111827] sm:text-sm">
+            {upload.name}
+          </span>
         </div>
         {upload.progress < 100 ? (
-          <span className="pr-2">{upload.progress}%</span>
+          <span className="shrink-0 text-xs font-semibold text-[#EA580C] sm:text-sm">
+            {upload.progress}%
+          </span>
         ) : (
-          <IoMdCheckmarkCircle className="h-9 w-9 p-1.5 pr-2 text-green-600" />
+          <IoMdCheckmarkCircle className="h-6 w-6 shrink-0 text-emerald-600 sm:h-7 sm:w-7" />
         )}
       </div>
     );
@@ -50,18 +54,18 @@ function ProgressIndicator({
 
   return (
     uploads.length > 0 && (
-      <div className="pointer-events-none fixed bottom-4 right-6 z-30 w-[23rem]">
-        <div className="pointer-events-auto overflow-hidden rounded-2xl border border-[#F0EEEB] bg-white shadow-lg shadow-black/10">
-          <div className="flex items-center justify-between bg-[#FAFAF9] py-2 pl-4 pr-2">
+      <div className="pointer-events-none fixed bottom-4 left-3 right-3 z-30 sm:left-auto sm:right-6 sm:w-[23rem]">
+        <div className="pointer-events-auto overflow-hidden rounded-2xl border border-[#F0EEEB] bg-white shadow-xl shadow-black/10">
+          <div className="flex items-center justify-between bg-[#FAFAF9] py-2.5 pl-4 pr-2">
             {isUploading ? (
-              <h3 className="flex items-center space-x-5 font-medium text-textC">
+              <h3 className="flex items-center gap-2 text-xs font-semibold text-[#111827] sm:text-sm">
                 <span className="animate-pulse">
-                  Uploading {activeUploads.length} file{activeUploads.length > 1 && "s"}
+                  Uploading {activeUploads.length} item{activeUploads.length > 1 && "s"}
                 </span>
-                <AiOutlineLoading3Quarters className="animate-spin text-green-600" />
+                <AiOutlineLoading3Quarters className="h-3.5 w-3.5 animate-spin text-[#EA580C]" />
               </h3>
             ) : (
-              <h3 className="font-medium text-textC">
+              <h3 className="text-xs font-semibold text-[#111827] sm:text-sm">
                 {uploads.length} upload{uploads.length > 1 && "s"} complete
               </h3>
             )}
@@ -70,26 +74,23 @@ function ProgressIndicator({
                 {minimize ? (
                   <IoIosArrowUp
                     onClick={() => setMinimize(!minimize)}
-                    className="h-9 w-9 cursor-pointer rounded-full p-2 hover:bg-darkC"
-                    stroke="2"
+                    className="h-8 w-8 cursor-pointer rounded-full p-1.5 text-[#6B7280] transition hover:bg-[#F3F4F6]"
                   />
                 ) : (
                   <IoIosArrowDown
                     onClick={() => setMinimize(!minimize)}
-                    className="h-9 w-9 cursor-pointer rounded-full p-2 hover:bg-darkC"
-                    stroke="2"
+                    className="h-8 w-8 cursor-pointer rounded-full p-1.5 text-[#6B7280] transition hover:bg-[#F3F4F6]"
                   />
                 )}
               </div>
               <AiOutlineClose
                 onClick={() => setUploads([])}
-                className="h-9 w-9 cursor-pointer rounded-full p-2 hover:bg-darkC"
+                className="h-8 w-8 cursor-pointer rounded-full p-1.5 text-[#6B7280] transition hover:bg-[#F3F4F6]"
               />
             </div>
-            {/* uploaded files progress */}
           </div>
           {!minimize && (
-            <div className="flex max-h-60 flex-col overflow-y-scroll">
+            <div className="flex max-h-56 flex-col divide-y divide-[#F0EEEB] overflow-y-auto sm:max-h-60">
               {fileNames}
             </div>
           )}

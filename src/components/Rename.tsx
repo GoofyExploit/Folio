@@ -14,7 +14,6 @@ function Rename({
   const { data: session } = useSession();
 
   const rename = async () => {
-    // Check if the file name is empty
     if (newName === "") return;
     if (!session?.user.id) return;
 
@@ -45,28 +44,38 @@ function Rename({
   };
 
   return (
-    <div className="absolute top-9 z-10 space-y-2 rounded-xl bg-white p-3 shadow-lg shadow-[#bbb]">
-      <h2 className="text-xl">Rename</h2>
+    <div
+      onClick={(e) => e.stopPropagation()}
+      className="absolute right-0 top-9 z-20 w-64 max-w-[calc(100vw-3rem)] space-y-3 rounded-2xl border border-[#F0EEEB] bg-white p-3.5 shadow-xl shadow-black/10"
+    >
+      <h2 className="text-base font-semibold text-[#111827]">Rename</h2>
       <input
-        className="w-full rounded-md border border-textC py-1.5 indent-2 outline-textC2"
+        autoFocus
+        className="w-full rounded-xl border border-[#E5E7EB] px-3 py-2 text-sm text-[#111827] outline-none transition focus:border-[#EA580C]"
         type="text"
-        placeholder="Rename"
+        placeholder="Name"
         value={newName}
         onChange={(e) => setNewName(e.target.value)}
+        onKeyDown={(e) => {
+          if (e.key === "Enter") {
+            void rename();
+          }
+        }}
       />
-      <div className=" flex w-full justify-between  font-medium text-textC2">
+      <div className="flex w-full justify-end gap-2 text-xs font-semibold">
         <button
           type="button"
           onClick={() => setRenameToggle("")}
-          className="rounded-full px-3 py-2 hover:bg-darkC2"
+          className="rounded-full px-3 py-1.5 text-[#6B7280] transition hover:bg-[#F3F4F6]"
         >
           Cancel
         </button>
         <button
           onClick={() => void rename()}
-          className={`rounded-full px-3 py-2 ${newName && "hover:bg-darkC2"}`}
+          disabled={!newName.trim()}
+          className="rounded-full bg-[#EA580C] px-3.5 py-1.5 text-white transition hover:bg-[#C2410C] disabled:opacity-50"
         >
-          Rename
+          Save
         </button>
       </div>
     </div>

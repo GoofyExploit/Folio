@@ -81,7 +81,7 @@ function Folder() {
       </Head>
       <div className="flex h-full flex-col">
         <FileHeader headerName={headerName} breadcrumbs={breadcrumbs} />
-        <div className="flex min-h-0 flex-1 flex-col overflow-y-auto px-8 pb-8 pt-4">
+        <div className="flex min-h-0 flex-1 flex-col overflow-y-auto px-4 pb-8 pt-4 sm:px-8">
           {!isFile && !isFolder && isLoading ? (
             <div className="flex h-full items-center justify-center">
               <DotLoader color="#EA580C" size={48} />
@@ -91,21 +91,21 @@ function Folder() {
               {isFile || isFolder ? (
                 <>
                   {isFolder && (
-                    <div className="mb-8 flex flex-col space-y-4">
+                    <div className="mb-8 flex flex-col space-y-3">
                       <h2 className="text-sm font-semibold text-[#6B7280]">
                         Folders
                       </h2>
-                      <div className="flex flex-wrap justify-start gap-x-3 gap-y-4">
+                      <div className="grid grid-cols-1 gap-3 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 xl:grid-cols-5">
                         <GetFolders folderId={currentFolderId} select={""} />
                       </div>
                     </div>
                   )}
                   {isFile && (
-                    <div className="mb-5 flex flex-col space-y-4">
+                    <div className="mb-5 flex flex-col space-y-3">
                       <h2 className="text-sm font-semibold text-[#6B7280]">
                         Files
                       </h2>
-                      <div className="flex flex-wrap justify-start gap-x-3 gap-y-4">
+                      <div className="grid grid-cols-2 gap-3 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-5 xl:grid-cols-6">
                         <GetFiles folderId={currentFolderId} select={""} />
                       </div>
                     </div>

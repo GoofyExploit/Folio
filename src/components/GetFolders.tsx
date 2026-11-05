@@ -28,7 +28,6 @@ function GetFolders({
   const folderList = select ? allFiles : folderFiles;
 
   const handleMenuToggle = (fileId: string) => {
-    // Toggle the dropdown for the given file
     setRenameToggle("");
     setOpenMenu((prevOpenMenu) => (prevOpenMenu === fileId ? "" : fileId));
     window.dispatchEvent(
@@ -63,7 +62,6 @@ function GetFolders({
   }, []);
 
   const folders = folderList.map((folder) => {
-    // set a condition for the folders to be displayed
     let condition = folder?.isFolder && !folder?.isTrashed;
     if (select === "starred")
       condition = folder?.isFolder && folder?.isStarred && !folder?.isTrashed;
@@ -79,11 +77,11 @@ function GetFolders({
               void router.push("/drive/folders/" + folder.id);
             }
           }}
-          className="relative flex w-[13.75rem] cursor-alias items-center justify-between rounded-2xl border border-[#F0EEEB] bg-white p-3 shadow-sm shadow-black/[0.03] transition hover:border-[#FDBA74]"
+          className="relative flex w-full cursor-alias items-center justify-between rounded-2xl border border-[#F0EEEB] bg-white p-3 shadow-sm shadow-black/[0.03] transition hover:border-[#FDBA74]"
         >
-          <div className="flex items-center space-x-2">
-            <AiFillFolder className="h-6 w-6 text-[#EA580C]" />
-            <span className="w-32 truncate text-sm font-medium text-[#111827]">
+          <div className="flex min-w-0 items-center gap-2">
+            <AiFillFolder className="h-5 w-5 shrink-0 text-[#EA580C] sm:h-6 sm:w-6" />
+            <span className="truncate text-sm font-medium text-[#111827]">
               {folder.folderName}
             </span>
           </div>
@@ -94,44 +92,38 @@ function GetFolders({
                 handleMenuToggle(folder.id);
               }
             }}
-            className="h-6 w-6 cursor-pointer rounded-full p-1 hover:bg-[#ccc]"
+            className="h-6 w-6 shrink-0 cursor-pointer rounded-full p-1 hover:bg-[#ccc]"
           />
-          {
-            /* drop down */
-            openMenu === folder.id && (
-              <FileDropDown
-                file={{
-                  ...folder,
-                  folderName: folder.folderName ?? "",
-                  isFolder: folder.isFolder ?? true,
-                  isStarred: folder.isStarred ?? false,
-                  isTrashed: folder.isTrashed ?? false,
-                  id: folder.id ?? "",
-                  fileLink: folder.fileLink ?? "",
-                  fileName: folder.fileName ?? "",
-                  fileExtension: folder.fileExtension ?? "",
-                  folderId: folder.folderId ?? "",
-                }}
-                setOpenMenu={setOpenMenu}
-                isFolderComp={true}
-                select={select}
-                folderId={folder.id}
-                setRenameToggle={setRenameToggle}
-              />
-            )
-          }
-          {
-            // rename toggle
-            renameToggle === folder.id && (
-              <Rename
-                setRenameToggle={setRenameToggle}
-                fileId={folder.id}
-                fileName={folder.folderName ?? ""}
-                isFolder={folder.isFolder ?? true}
-                fileExtension=""
-              />
-            )
-          }
+          {openMenu === folder.id && (
+            <FileDropDown
+              file={{
+                ...folder,
+                folderName: folder.folderName ?? "",
+                isFolder: folder.isFolder ?? true,
+                isStarred: folder.isStarred ?? false,
+                isTrashed: folder.isTrashed ?? false,
+                id: folder.id ?? "",
+                fileLink: folder.fileLink ?? "",
+                fileName: folder.fileName ?? "",
+                fileExtension: folder.fileExtension ?? "",
+                folderId: folder.folderId ?? "",
+              }}
+              setOpenMenu={setOpenMenu}
+              isFolderComp={true}
+              select={select}
+              folderId={folder.id}
+              setRenameToggle={setRenameToggle}
+            />
+          )}
+          {renameToggle === folder.id && (
+            <Rename
+              setRenameToggle={setRenameToggle}
+              fileId={folder.id}
+              fileName={folder.folderName ?? ""}
+              isFolder={folder.isFolder ?? true}
+              fileExtension=""
+            />
+          )}
         </div>
       )
     );

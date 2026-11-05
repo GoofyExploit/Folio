@@ -84,23 +84,24 @@ function TransferDialog({
   return (
     <div
       onClick={onClose}
-      className="fixed inset-0 z-50 flex items-center justify-center bg-darkC2/40"
+      className="fixed inset-0 z-50 flex items-center justify-center bg-black/30 p-4"
     >
       <div
         onClick={(event) => event.stopPropagation()}
-        className="w-[28rem] space-y-5 rounded-xl bg-white p-5 shadow-lg shadow-[#bbb]"
+        className="w-full max-w-md space-y-5 rounded-2xl bg-white p-5 shadow-xl sm:p-6"
       >
         <div className="space-y-1">
-          <h2 className="text-2xl capitalize">{mode} item</h2>
-          <p className="text-sm text-textC">
-            Select where to {mode} "
-            {item.isFolder ? item.folderName : item.fileName}".
+          <h2 className="text-xl font-bold capitalize tracking-tight text-[#111827] sm:text-2xl">
+            {mode} item
+          </h2>
+          <p className="truncate text-sm text-[#6B7280]">
+            Select where to {mode} "{item.isFolder ? item.folderName : item.fileName}".
           </p>
         </div>
         <select
           value={destinationId}
           onChange={(event) => setDestinationId(event.target.value)}
-          className="w-full rounded-md border border-textC px-3 py-2 outline-textC2"
+          className="w-full rounded-xl border border-[#E5E7EB] bg-white px-3 py-2.5 text-sm text-[#111827] outline-none focus:border-[#EA580C]"
         >
           {folderOptions.map((option) => (
             <option key={`${mode}-${option.id}`} value={option.id}>
@@ -108,11 +109,11 @@ function TransferDialog({
             </option>
           ))}
         </select>
-        <div className="flex justify-end space-x-3 font-medium text-textC2">
+        <div className="flex justify-end gap-2 text-sm font-medium">
           <button
             type="button"
             onClick={onClose}
-            className="rounded-full px-3 py-2 hover:bg-darkC2"
+            className="rounded-full px-4 py-2 text-[#374151] transition hover:bg-[#F3F4F6]"
           >
             Cancel
           </button>
@@ -120,7 +121,7 @@ function TransferDialog({
             type="button"
             onClick={() => void submit()}
             disabled={isSubmitting}
-            className="rounded-full px-3 py-2 hover:bg-darkC2 disabled:cursor-not-allowed disabled:opacity-60"
+            className="rounded-full bg-[#EA580C] px-5 py-2 text-white shadow-sm transition hover:bg-[#C2410C] disabled:cursor-not-allowed disabled:opacity-60"
           >
             {isSubmitting ? "Working..." : mode === "move" ? "Move" : "Copy"}
           </button>

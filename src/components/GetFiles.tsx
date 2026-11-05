@@ -25,7 +25,6 @@ function GetFiles({ folderId, select }: { folderId: string; select: string }) {
   };
 
   const handleMenuToggle = (fileId: string) => {
-    // Toggle the dropdown for the given file
     setRenameToggle("");
     setOpenMenu((prevOpenMenu) => (prevOpenMenu === fileId ? "" : fileId));
     window.dispatchEvent(
@@ -60,40 +59,40 @@ function GetFiles({ folderId, select }: { folderId: string; select: string }) {
   }, []);
 
   const list = fileList.map((file) => {
-    // getting the icon for the file
     const icon =
       fileIcons[file.fileExtension as keyof typeof fileIcons] ??
       fileIcons["any"];
 
-    const img = ["jpg", "ico", "webp", "png", "jpeg", "gif", "jfif"].includes(
+    const isImage = ["jpg", "ico", "webp", "png", "jpeg", "gif", "jfif"].includes(
       file.fileExtension ?? "",
-    ) ? (
+    );
+
+    const preview = isImage ? (
       <Image
         src={file.fileLink ?? ""}
         alt={file.fileName ?? "image"}
-        height="500"
-        width="500"
+        height={500}
+        width={500}
         draggable={false}
         className="h-full w-full rounded-sm object-cover object-center"
       />
     ) : file.fileExtension === "mp3" ? (
-      <div className="flex flex-col items-center justify-center">
-        <div className="h-24 w-24 ">{icon}</div>
-        <audio controls className="w-44">
+      <div className="flex flex-col items-center justify-center gap-2 p-2">
+        <div className="h-16 w-16 sm:h-20 sm:w-20">{icon}</div>
+        <audio controls className="w-full max-w-[10rem]">
           <source src={file.fileLink ?? ""} type="audio/mpeg" />
           Your browser does not support the audio element.
         </audio>
       </div>
     ) : file.fileExtension === "mp4" ? (
-      <video controls>
+      <video controls className="h-full w-full rounded-sm object-cover">
         <source src={file.fileLink ?? ""} type="video/mp4" />
-        <div className="h-36 w-36 ">{icon}</div>
+        <div className="h-16 w-16">{icon}</div>
       </video>
     ) : (
-      <div className="h-36 w-36 ">{icon}</div>
+      <div className="h-20 w-20 sm:h-28 sm:w-28">{icon}</div>
     );
 
-    // set a condition for the files to be displayed
     let condition = !file?.isFolder && !(file?.isTrashed ?? false);
     if (select === "starred")
       condition =
@@ -110,13 +109,12 @@ function GetFiles({ folderId, select }: { folderId: string; select: string }) {
           onDoubleClick={() => file.fileLink && openFile(file.fileLink)}
           className="hover:cursor-alias"
         >
-          <div
-            className="flex w-full flex-col items-center justify-center overflow-visible rounded-2xl border border-[#F0EEEB] bg-white px-2.5 shadow-sm shadow-black/[0.03] transition hover:border-[#FDBA74]"
-          >
+          <div className="flex w-full flex-col items-center justify-center overflow-visible rounded-2xl border border-[#F0EEEB] bg-white px-2.5 shadow-sm shadow-black/[0.03] transition hover:border-[#FDBA74]">
+            {/* File name row */}
             <div className="relative flex w-full items-center justify-between px-1 py-3">
-              <div className="flex items-center space-x-4">
-                <div className="h-6 w-6">{icon}</div>
-                <span className="w-32 truncate text-sm font-medium text-[#111827]">
+              <div className="flex min-w-0 items-center gap-2 sm:gap-3">
+                <div className="h-5 w-5 shrink-0 sm:h-6 sm:w-6">{icon}</div>
+                <span className="truncate text-sm font-medium text-[#111827]">
                   {file.fileName}
                 </span>
               </div>
@@ -127,47 +125,42 @@ function GetFiles({ folderId, select }: { folderId: string; select: string }) {
                     handleMenuToggle(file.id);
                   }
                 }}
-                className="h-6 w-6 cursor-pointer rounded-full p-1 hover:bg-[#ccc]"
+                className="h-6 w-6 shrink-0 cursor-pointer rounded-full p-1 hover:bg-[#ccc]"
               />
-              {
-                /* drop down */
-                openMenu === file.id && (
-                  <FileDropDown
-                    file={{
-                      ...file,
-                      folderName: file.folderName ?? "",
-                      isFolder: file.isFolder ?? false,
-                      isStarred: file.isStarred ?? false,
-                      isTrashed: file.isTrashed ?? false,
-                      id: file.id ?? "",
-                      fileLink: file.fileLink ?? "",
-                      fileName: file.fileName ?? "",
-                      fileExtension: file.fileExtension ?? "",
-                      folderId: file.folderId ?? "",
-                    }}
-                    setOpenMenu={setOpenMenu}
-                    isFolderComp={false}
-                    select={select}
-                    folderId=""
-                    setRenameToggle={setRenameToggle}
-                  />
-                )
-              }
-              {
-                // rename toggle
-                renameToggle === file.id && (
-                  <Rename
-                    setRenameToggle={setRenameToggle}
-                    fileId={file.id}
-                    isFolder={file.isFolder ?? false}
-                    fileName={file.fileName ?? ""}
-                    fileExtension={file.fileExtension ?? ""}
-                  />
-                )
-              }
+              {openMenu === file.id && (
+                <FileDropDown
+                  file={{
+                    ...file,
+                    folderName: file.folderName ?? "",
+                    isFolder: file.isFolder ?? false,
+                    isStarred: file.isStarred ?? false,
+                    isTrashed: file.isTrashed ?? false,
+                    id: file.id ?? "",
+                    fileLink: file.fileLink ?? "",
+                    fileName: file.fileName ?? "",
+                    fileExtension: file.fileExtension ?? "",
+                    folderId: file.folderId ?? "",
+                  }}
+                  setOpenMenu={setOpenMenu}
+                  isFolderComp={false}
+                  select={select}
+                  folderId=""
+                  setRenameToggle={setRenameToggle}
+                />
+              )}
+              {renameToggle === file.id && (
+                <Rename
+                  setRenameToggle={setRenameToggle}
+                  fileId={file.id}
+                  isFolder={file.isFolder ?? false}
+                  fileName={file.fileName ?? ""}
+                  fileExtension={file.fileExtension ?? ""}
+                />
+              )}
             </div>
-            <div className="flex h-44 w-48 items-center justify-center pb-2.5">
-              {img}
+            {/* Preview area */}
+            <div className="flex h-36 w-full items-center justify-center pb-2.5 sm:h-44">
+              {preview}
             </div>
           </div>
         </div>
@@ -175,7 +168,6 @@ function GetFiles({ folderId, select }: { folderId: string; select: string }) {
     );
   });
 
-  // the list of files
   return list;
 }
 

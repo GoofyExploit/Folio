@@ -16,36 +16,42 @@ function AddFolder({
   return (
     // Background overlay for the pop-up
     <div
-      onClick={() => setFolderToggle(false)} // Close the pop-up when clicking outside
-      className="fixed inset-0 z-40 flex items-center justify-center bg-black/20"
+      onClick={() => setFolderToggle(false)}
+      className="fixed inset-0 z-40 flex items-center justify-center bg-black/30 p-4"
     >
-      {/* Pop-up form for creating a new folder */}
       <div
         onClick={(e) => {
-          e.stopPropagation(); // Prevent clicks inside the form from closing the pop-up
+          e.stopPropagation();
         }}
-        className="w-96 space-y-6 rounded-3xl bg-white p-6 shadow-xl shadow-black/10"
+        className="w-full max-w-sm space-y-5 rounded-2xl bg-white p-5 shadow-xl sm:p-6"
       >
-        <h2 className="text-2xl font-semibold tracking-tight text-[#111827]">
+        <h2 className="text-xl font-bold tracking-tight text-[#111827] sm:text-2xl">
           New folder
         </h2>
         <input
-          className="w-full rounded-xl border border-[#E5E7EB] py-2.5 indent-4 outline-none focus:border-[#EA580C]"
+          autoFocus
+          className="w-full rounded-xl border border-[#E5E7EB] px-3.5 py-2.5 text-sm text-[#111827] outline-none transition focus:border-[#EA580C]"
           type="text"
           placeholder="Untitled folder"
           onChange={(e) => setFolderName(e.target.value)}
+          onKeyDown={(e) => {
+            if (e.key === "Enter") {
+              void addFolder();
+            }
+          }}
         />
-        <div className="flex w-full justify-end gap-2 font-medium">
+        <div className="flex w-full justify-end gap-2 text-sm font-medium">
           <button
             type="button"
             onClick={() => setFolderToggle(false)}
-            className="rounded-full px-4 py-2 text-[#374151] hover:bg-[#F3F4F6]"
+            className="rounded-full px-4 py-2 text-[#374151] transition hover:bg-[#F3F4F6]"
           >
             Cancel
           </button>
           <button
+            type="button"
             onClick={() => void addFolder()}
-            className="rounded-full bg-[#EA580C] px-4 py-2 text-white hover:bg-[#C2410C]"
+            className="rounded-full bg-[#EA580C] px-5 py-2 text-white shadow-sm transition hover:bg-[#C2410C]"
           >
             Create
           </button>

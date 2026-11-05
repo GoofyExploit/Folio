@@ -40,7 +40,6 @@ function FileDropDown({
   const closeMenu = () => setOpenMenu("");
 
   const openFile = (fileLink: string) => {
-    // Open the file in a new tab
     window.open(fileLink, "_blank");
   };
 
@@ -71,22 +70,23 @@ function FileDropDown({
     <>
       <section
         onClick={(event) => event.stopPropagation()}
-        className="absolute top-9 z-10 max-h-72 w-52 overflow-y-auto rounded-md border bg-white shadow-sm shadow-[#777]"
+        className="absolute right-0 top-9 z-20 max-h-80 w-48 overflow-y-auto rounded-2xl border border-[#F0EEEB] bg-white py-1.5 text-sm shadow-xl shadow-black/10"
       >
         {select !== "trashed" ? (
           <>
-            <div
+            <button
+              type="button"
               onClick={() => {
                 closeMenu();
                 isFolderComp
                   ? void router.push("/drive/folders/" + folderId)
                   : openFile(file.fileLink);
               }}
-              className="my-2 flex items-center space-x-3 px-3 py-1.5 hover:cursor-pointer hover:bg-[#ddd]"
+              className="flex w-full items-center gap-3 px-3.5 py-2 text-left font-medium text-[#111827] transition hover:bg-[#FFF7ED]"
             >
-              <HiOutlineArrowsExpand className="h-5 w-5" />
-              <span className="text-sm">Open File</span>
-            </div>
+              <HiOutlineArrowsExpand className="h-4 w-4 text-[#6B7280]" />
+              <span>Open</span>
+            </button>
             {!isFolderComp && (
               <button
                 type="button"
@@ -94,86 +94,95 @@ function FileDropDown({
                   closeMenu();
                   void downloadFile(file.fileLink, file.fileName);
                 }}
-                className="my-2 flex items-center space-x-3 px-3 py-1.5 hover:cursor-pointer hover:bg-[#ddd]"
+                className="flex w-full items-center gap-3 px-3.5 py-2 text-left font-medium text-[#111827] transition hover:bg-[#FFF7ED]"
               >
-                <TbDownload className="h-5 w-5" />
-                <span className="text-sm">Download</span>
+                <TbDownload className="h-4 w-4 text-[#6B7280]" />
+                <span>Download</span>
               </button>
             )}
 
-            <div
+            <button
+              type="button"
               onClick={() => {
                 closeMenu();
                 setRenameToggle(file.id);
               }}
-              className="my-2 flex items-center space-x-3 px-3 py-1.5 hover:cursor-pointer hover:bg-[#ddd]"
+              className="flex w-full items-center gap-3 px-3.5 py-2 text-left font-medium text-[#111827] transition hover:bg-[#FFF7ED]"
             >
-              <MdDriveFileRenameOutline className="h-5 w-5" />
-              <span className="text-sm">Rename</span>
-            </div>
-            <div
+              <MdDriveFileRenameOutline className="h-4 w-4 text-[#6B7280]" />
+              <span>Rename</span>
+            </button>
+            <button
+              type="button"
               onClick={() => {
                 closeMenu();
                 void starFile(file.id, !file.isStarred);
               }}
-              className="my-2 flex items-center space-x-3 px-3 py-1.5 hover:cursor-pointer hover:bg-[#ddd]"
+              className="flex w-full items-center gap-3 px-3.5 py-2 text-left font-medium text-[#111827] transition hover:bg-[#FFF7ED]"
             >
               {!file.isStarred ? (
-                <MdStarBorder className="h-5 w-5" />
+                <MdStarBorder className="h-4 w-4 text-[#6B7280]" />
               ) : (
-                <MdStarRate className="h-5 w-5" />
+                <MdStarRate className="h-4 w-4 text-[#EA580C]" />
               )}
-              <span className="text-sm">Add to starred</span>
-            </div>
-            <div
+              <span>{file.isStarred ? "Starred" : "Add star"}</span>
+            </button>
+            <button
+              type="button"
               onClick={() => setTransferMode("move")}
-              className="my-2 flex items-center space-x-3 px-3 py-1.5 hover:cursor-pointer hover:bg-[#ddd]"
+              className="flex w-full items-center gap-3 px-3.5 py-2 text-left font-medium text-[#111827] transition hover:bg-[#FFF7ED]"
             >
-              <MdDriveFileMove className="h-5 w-5" />
-              <span className="text-sm">Move to</span>
-            </div>
-            <div
+              <MdDriveFileMove className="h-4 w-4 text-[#6B7280]" />
+              <span>Move to</span>
+            </button>
+            <button
+              type="button"
               onClick={() => setTransferMode("copy")}
-              className="my-2 flex items-center space-x-3 px-3 py-1.5 hover:cursor-pointer hover:bg-[#ddd]"
+              className="flex w-full items-center gap-3 px-3.5 py-2 text-left font-medium text-[#111827] transition hover:bg-[#FFF7ED]"
             >
-              <MdContentCopy className="h-5 w-5" />
-              <span className="text-sm">Make a copy to</span>
-            </div>
+              <MdContentCopy className="h-4 w-4 text-[#6B7280]" />
+              <span>Make a copy</span>
+            </button>
             {!isFolderComp && (
-              <div
+              <button
+                type="button"
                 onClick={() => {
                   setShareOpen(true);
                 }}
-                className="my-2 flex items-center space-x-3 px-3 py-1.5 hover:cursor-pointer hover:bg-[#ddd]"
+                className="flex w-full items-center gap-3 px-3.5 py-2 text-left font-medium text-[#111827] transition hover:bg-[#FFF7ED]"
               >
-                <FiShare2 className="h-5 w-5" />
-                <span className="text-sm">Copy link</span>
-              </div>
+                <FiShare2 className="h-4 w-4 text-[#6B7280]" />
+                <span>Share link</span>
+              </button>
             )}
-            <div
+            <div className="my-1 border-t border-[#F0EEEB]" />
+            <button
+              type="button"
               onClick={() => {
                 closeMenu();
                 void trashFile(file.id, true);
               }}
-              className="my-2 flex items-center space-x-3 px-3 py-1.5 hover:cursor-pointer hover:bg-[#ddd]"
+              className="flex w-full items-center gap-3 px-3.5 py-2 text-left font-medium text-red-600 transition hover:bg-red-50"
             >
-              <RiDeleteBin6Line className="h-5 w-5" />
-              <span className="text-sm">Move to bin</span>
-            </div>
+              <RiDeleteBin6Line className="h-4 w-4" />
+              <span>Move to bin</span>
+            </button>
           </>
         ) : (
           <>
-            <div
+            <button
+              type="button"
               onClick={() => {
                 closeMenu();
                 void trashFile(file.id, false);
               }}
-              className="my-2 flex items-center space-x-3 px-3 py-1.5 hover:cursor-pointer hover:bg-[#ddd]"
+              className="flex w-full items-center gap-3 px-3.5 py-2 text-left font-medium text-[#111827] transition hover:bg-[#FFF7ED]"
             >
-              <MdOutlineRestore className="h-5 w-5" />
-              <span className="text-sm">Restore</span>
-            </div>
-            <div
+              <MdOutlineRestore className="h-4 w-4 text-[#6B7280]" />
+              <span>Restore</span>
+            </button>
+            <button
+              type="button"
               onClick={() => {
                 closeMenu();
                 void deleteFile(
@@ -183,11 +192,11 @@ function FileDropDown({
                   file.resourceType,
                 );
               }}
-              className="my-2 flex items-center space-x-3 px-3 py-1.5 hover:cursor-pointer hover:bg-[#ddd]"
+              className="flex w-full items-center gap-3 px-3.5 py-2 text-left font-medium text-red-600 transition hover:bg-red-50"
             >
-              <RiDeleteBin6Line className="h-5 w-5" />
-              <span className="text-sm">Delete forever</span>
-            </div>
+              <RiDeleteBin6Line className="h-4 w-4" />
+              <span>Delete forever</span>
+            </button>
           </>
         )}
       </section>
