@@ -15,17 +15,22 @@ function StorageMeter() {
   const nearLimit = usageBytes >= limitBytes / 1.25;
 
   return (
-    <div className="w-36 shrink-0 sm:w-52 lg:w-64">
-      <div className="mb-1.5 flex items-center justify-between gap-2 text-xs text-[#6B7280]">
-        <span>Storage</span>
-        <span className="tabular-nums">
-          {formatBytes(usageBytes)} of {formatBytes(limitBytes)}
+    <div className="w-full shrink-0 sm:w-64 lg:w-72">
+      <div className="mb-2 flex items-center justify-between gap-3 text-xs text-[#6B7280]">
+        <span className="font-medium text-[#4B5563]">Storage</span>
+        <span className="tabular-nums whitespace-nowrap">
+          <strong className="font-semibold text-[#111827]">
+            {formatBytes(usageBytes)}
+          </strong>{" "}
+          of {formatBytes(limitBytes)}
         </span>
       </div>
-      <div className="h-[3px] overflow-hidden rounded-full bg-[#E5E7EB]">
+      <div className="h-2 w-full overflow-hidden rounded-full bg-[#F3F4F6]">
         <div
-          className={`h-full rounded-full ${nearLimit ? "bg-red-500" : "bg-[#EA580C]"}`}
-          style={{ width: `${Math.max(percent, 2)}%` }}
+          className={`h-full rounded-full transition-all duration-300 ${
+            nearLimit ? "bg-red-500" : "bg-[#EA580C]"
+          }`}
+          style={{ width: `${percent > 0 ? Math.max(percent, 0.75) : 0}%` }}
         />
       </div>
     </div>
@@ -59,7 +64,7 @@ function FileHeader({
 
   return (
     <div className="px-4 pb-2 pt-5 sm:px-8 sm:pt-8">
-      <div className="flex items-start justify-between gap-4">
+      <div className="flex flex-col gap-4 sm:flex-row sm:items-center sm:justify-between sm:gap-6">
         <div className="flex min-w-0 flex-wrap items-center gap-x-2 gap-y-1">
           {breadcrumbTrail.map((item, index) => {
             const isLast = index === breadcrumbTrail.length - 1;
@@ -70,7 +75,9 @@ function FileHeader({
             return (
               <React.Fragment key={`${item.id}-${item.label}`}>
                 {index > 0 && (
-                  <span className="text-xl font-light text-[#D1D5DB] sm:text-2xl">/</span>
+                  <span className="text-xl font-light text-[#D1D5DB] sm:text-2xl">
+                    /
+                  </span>
                 )}
                 {isLast ? (
                   <h1 className="truncate text-2xl font-bold tracking-tight text-[#111827] sm:text-4xl">
@@ -88,7 +95,9 @@ function FileHeader({
             );
           })}
         </div>
-        <StorageMeter />
+        <div className="w-full sm:w-auto">
+          <StorageMeter />
+        </div>
       </div>
       <div className="mt-4 flex flex-wrap items-center gap-2 sm:mt-6">
         <FilterChip label="Type" />
