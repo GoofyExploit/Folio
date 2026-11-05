@@ -51,3 +51,6 @@ yarn-error.log*
 # agent / AI tools
 .agents/
 skills-lock.json
+
+# local dummy test files
+dummy_files/

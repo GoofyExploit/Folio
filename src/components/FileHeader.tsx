@@ -1,6 +1,5 @@
 import { useRouter } from "next/router";
 import React from "react";
-import { IoChevronDown } from "react-icons/io5";
 import { formatBytes } from "@/utils/formatBytes";
 import { useDrive } from "./DriveProvider";
 
@@ -37,18 +36,6 @@ function StorageMeter() {
   );
 }
 
-function FilterChip({ label }: { label: string }) {
-  return (
-    <button
-      type="button"
-      className="flex items-center gap-1.5 rounded-full border border-[#E5E7EB] bg-white px-3 py-1.5 text-xs font-medium text-[#374151] transition hover:bg-[#F9FAFB] sm:px-3.5 sm:text-sm"
-    >
-      <span>{label}</span>
-      <IoChevronDown className="h-3 w-3 text-[#6B7280] sm:h-3.5 sm:w-3.5" />
-    </button>
-  );
-}
-
 function FileHeader({
   headerName,
   breadcrumbs,
@@ -63,7 +50,7 @@ function FileHeader({
       : [{ id: "", label: headerName }];
 
   return (
-    <div className="px-4 pb-2 pt-5 sm:px-8 sm:pt-8">
+    <div className="px-4 pb-4 pt-5 sm:px-8 sm:pb-5 sm:pt-8">
       <div className="flex flex-col gap-4 sm:flex-row sm:items-center sm:justify-between sm:gap-6">
         <div className="flex min-w-0 flex-wrap items-center gap-x-2 gap-y-1">
           {breadcrumbTrail.map((item, index) => {
@@ -98,11 +85,6 @@ function FileHeader({
         <div className="w-full sm:w-auto">
           <StorageMeter />
         </div>
-      </div>
-      <div className="mt-4 flex flex-wrap items-center gap-2 sm:mt-6">
-        <FilterChip label="Type" />
-        <FilterChip label="People" />
-        <FilterChip label="Modified" />
       </div>
     </div>
   );
