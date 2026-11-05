@@ -6,7 +6,9 @@ import EmptyState from "@/components/EmptyState";
 import { useEffect, useState } from "react";
 import { useSession } from "next-auth/react";
 import { useFetchFiles } from "@/hooks/fetchFiles";
+import { useDrive } from "@/components/DriveProvider";
 import { DotLoader } from "react-spinners";
+import { FiPlus } from "react-icons/fi";
 
 export default function Home() {
   const [isFolder, setIsFolder] = useState(false);
@@ -14,6 +16,7 @@ export default function Home() {
   const [isLoading, setIsLoading] = useState(true);
 
   const { data: session } = useSession();
+  const { openNewFolder } = useDrive();
 
   const list = useFetchFiles(
     "",
@@ -51,14 +54,26 @@ export default function Home() {
             <>
               {isFile || isFolder ? (
                 <>
-                  {isFolder && (
-                    <div className="mb-8 flex flex-col space-y-3">
+                  <div className="mb-8 flex flex-col space-y-3">
+                    <div className="flex items-center justify-between">
                       <h2 className="text-sm font-semibold text-[#6B7280]">Folders</h2>
+                      <button
+                        type="button"
+                        onClick={openNewFolder}
+                        className="flex items-center gap-1 rounded-full px-2.5 py-1 text-xs font-semibold text-[#EA580C] transition hover:bg-[#FFF7ED]"
+                      >
+                        <FiPlus className="h-3.5 w-3.5" strokeWidth={2.5} />
+                        <span>New folder</span>
+                      </button>
+                    </div>
+                    {isFolder ? (
                       <div className="grid grid-cols-1 gap-3 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 xl:grid-cols-5">
                         <GetFolders folderId="" select="" />
                       </div>
-                    </div>
-                  )}
+                    ) : (
+                      <p className="text-xs text-[#9CA3AF]">No folders yet. Click New folder to create one.</p>
+                    )}
+                  </div>
                   {isFile && (
                     <div className="mb-5 flex flex-col space-y-3">
                       <h2 className="text-sm font-semibold text-[#6B7280]">Files</h2>

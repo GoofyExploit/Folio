@@ -4,7 +4,7 @@ import { useState } from "react";
 import { signIn, useSession } from "next-auth/react";
 import Link from "next/link";
 import Image from "next/image";
-import { FiUpload } from "react-icons/fi";
+import { FiUpload, FiPlus } from "react-icons/fi";
 import { HiOutlineUser } from "react-icons/hi";
 import { IoChevronDown } from "react-icons/io5";
 import UserInfo from "./UserInfo";
@@ -39,6 +39,18 @@ function Header() {
 
       {/* Actions */}
       <div className="flex shrink-0 items-center gap-2 sm:gap-3">
+        {/* Plus / New folder button */}
+        <button
+          type="button"
+          onClick={openNewFolder}
+          title="Create new folder"
+          aria-label="Create new folder"
+          className="flex items-center gap-1.5 rounded-full border border-[#E5E7EB] bg-white px-2.5 py-2 text-sm font-semibold text-[#111827] shadow-sm transition hover:border-[#EA580C] hover:bg-[#FFF7ED] hover:text-[#EA580C] sm:px-3.5"
+        >
+          <FiPlus className="h-4 w-4 text-[#EA580C]" strokeWidth={2.5} />
+          <span className="hidden md:inline">New folder</span>
+        </button>
+
         {/* Upload button */}
         <div className="relative">
           <button
